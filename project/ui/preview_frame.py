@@ -2,6 +2,8 @@
 
 import customtkinter as ctk
 from .mock_data import get_mock_session
+from .components.card import Card
+from .components.exercise_card import ExerciseCard
 
 
 class PreviewFrame(ctk.CTkFrame):
@@ -41,21 +43,23 @@ class PreviewFrame(ctk.CTkFrame):
         row += 1
 
         for block in session_data.get("blocks", []):
-            block_lbl = ctk.CTkLabel(
+            card = Card(
                 self._content,
-                text=block.get("type", "Bloc"),
-                font=ctk.CTkFont(weight="bold"),
+                title=block.get("type", "Bloc"),
+                value=f"{block.get('duration', '?')} min",
+                description=block.get("details", ""),
             )
-            block_lbl.grid(row=row, column=0, sticky="w")
-            row += 1
+            card.grid(row=row, column=0, sticky="nsew", pady=(0, 10))
+            card.grid_columnconfigure(0, weight=1)
+
+            ex_row = 0
             for ex in block.get("exercises", []):
-                ex_lbl = ctk.CTkLabel(
-                    self._content,
-                    text=f"• {ex.get('name', '')} - {ex.get('details', '')}",
+                ex_card = ExerciseCard(
+                    card.content,
+                    name=ex.get("name", ""),
+                    details=ex.get("details", ""),
                 )
-                ex_lbl.grid(row=row, column=0, sticky="w", padx=10)
-                row += 1
-            if block.get("details"):
-                details_lbl = ctk.CTkLabel(self._content, text=block["details"])
-                details_lbl.grid(row=row, column=0, sticky="w", padx=10)
-                row += 1
+                ex_card.grid(row=ex_row, column=0, sticky="ew", pady=2)
+                ex_row += 1
+
+            row += 1

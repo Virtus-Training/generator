@@ -10,6 +10,7 @@ def get_mock_session():
         "blocks": [
             {
                 "type": "Warmup",
+                "duration": 10,
                 "exercises": [
                     {"name": "Jumping Jacks", "details": "3 min"},
                     {"name": "Squat Poids de corps", "details": "15 reps"},
@@ -17,6 +18,7 @@ def get_mock_session():
             },
             {
                 "type": "Circuit",
+                "duration": 35,
                 "exercises": [
                     {"name": "Kettlebell Swing", "details": "15 reps"},
                     {"name": "Push Up", "details": "10 reps"},
