@@ -2,6 +2,8 @@
 
 import customtkinter as ctk
 
+from .components.card import Card
+
 
 class DashboardFrame(ctk.CTkFrame):
     """Home dashboard for the application."""
@@ -11,14 +13,22 @@ class DashboardFrame(ctk.CTkFrame):
         self.grid_rowconfigure((0, 1), weight=1)
         self.grid_columnconfigure((0, 1), weight=1)
 
-        # KPI tiles
-        kpi1 = ctk.CTkFrame(self)
+        # KPI cards
+        kpi1 = Card(
+            self,
+            title="Séances générées",
+            value="12",
+            description="dans la base",
+        )
         kpi1.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
-        ctk.CTkLabel(kpi1, text="Séances générées\n12", justify="center").pack(expand=True)
 
-        kpi2 = ctk.CTkFrame(self)
+        kpi2 = Card(
+            self,
+            title="Exercices dans la base",
+            value="5",
+            description="actifs",
+        )
         kpi2.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        ctk.CTkLabel(kpi2, text="Clients actifs\n5", justify="center").pack(expand=True)
 
         # Quick actions
         actions = ctk.CTkFrame(self)

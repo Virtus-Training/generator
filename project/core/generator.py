@@ -89,7 +89,6 @@ def _assign_reps_or_time(objective: str) -> str:
 
 def generate_session(params: Dict) -> models.Session:
     params = _merge_params(params)
-    random.seed(None)
     if params["variability"] == 0:
         random.seed(0)
 
@@ -113,7 +112,8 @@ def generate_session(params: Dict) -> models.Session:
         if not candidates:
             raise GenerationError(f"No exercise for pattern {pattern}")
         scored = sorted(candidates, key=lambda e: _score_exercise(e, params), reverse=True)
-        exercise = scored[0]
+        top_n = max(1, round(len(scored) * params["variability"] / 100))
+        exercise = random.choice(scored[:top_n])
         used_ids.add(exercise.id)
         block = models.Block(block_type="Core", order=i, duration=600)
         eb = models.ExerciseBlock(block=block, exercise=exercise, order=0,
